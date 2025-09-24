@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { CardContent } from '../card-content/card-content';
 interface ProductItem {
   id: number;
@@ -7,6 +6,7 @@ interface ProductItem {
   price: string;
   link: string;
   img: string;
+  img2: string;
 }
 @Component({
   selector: 'app-new-product',
@@ -40,6 +40,7 @@ export class NewProduct {
       price: 'NT$ 1,799',
       link: '/product1',
       img: '/product1-1.webp',
+      img2: '/product1-2.webp',
     },
     {
       id: 2,
@@ -47,6 +48,7 @@ export class NewProduct {
       price: 'NT$ 1,599',
       link: '/product2',
       img: '/product2-1.webp',
+      img2: '/product2-2.webp',
     },
     {
       id: 3,
@@ -54,6 +56,7 @@ export class NewProduct {
       price: 'NT$ 1,299',
       link: '/product3',
       img: '/product3-1.webp',
+      img2: '/product3-2.webp',
     },
     {
       id: 4,
@@ -61,6 +64,7 @@ export class NewProduct {
       price: 'NT$ 1,099',
       link: '/product4',
       img: '/product4-1.webp',
+      img2: '/product4-2.webp',
     },
     {
       id: 5,
@@ -68,6 +72,7 @@ export class NewProduct {
       price: 'NT$ 1,050',
       link: '/product5',
       img: '/product5-1.webp',
+      img2: '/product5-2.webp',
     },
     {
       id: 6,
@@ -75,6 +80,7 @@ export class NewProduct {
       price: 'NT$ 850',
       link: '/product6',
       img: '/product6-1.webp',
+      img2: '/product6-2.webp',
     },
     {
       id: 7,
@@ -82,6 +88,7 @@ export class NewProduct {
       price: 'NT$ 850',
       link: '/product7',
       img: '/product7-1.webp',
+      img2: '/product7-2.webp',
     },
     {
       id: 8,
@@ -89,6 +96,7 @@ export class NewProduct {
       price: '從NT$ 499起',
       link: '/product8',
       img: '/product8-1.webp',
+      img2: '/product8-2.webp',
     },
     {
       id: 9,
@@ -96,6 +104,7 @@ export class NewProduct {
       price: 'NT$ 450',
       link: '/product9',
       img: '/product9-1.webp',
+      img2: '/product9-2.webp',
     },
     {
       id: 10,
@@ -103,6 +112,7 @@ export class NewProduct {
       price: 'NT$ 230',
       link: '/product10',
       img: '/product10-1.webp',
+      img2: '/product10-2.webp',
     },
     {
       id: 11,
@@ -110,6 +120,7 @@ export class NewProduct {
       price: 'NT$ 230',
       link: '/product11',
       img: '/product11-1.webp',
+      img2: '/product11-2.webp',
     },
     {
       id: 12,
@@ -117,6 +128,7 @@ export class NewProduct {
       price: 'NT$ 399',
       link: '/product12',
       img: '/product12-1.webp',
+      img2: '/product12-2.webp',
     },
     {
       id: 13,
@@ -124,6 +136,7 @@ export class NewProduct {
       price: '從NT$ 275起',
       link: '/product13',
       img: '/product13-1.webp',
+      img2: '/product13-2.webp',
     },
     {
       id: 14,
@@ -131,6 +144,7 @@ export class NewProduct {
       price: '從NT$ 45起',
       link: '/product14',
       img: '/product14-1.webp',
+      img2: '/product14-2.webp',
     },
     {
       id: 15,
@@ -138,6 +152,7 @@ export class NewProduct {
       price: '從NT$ 390起',
       link: '/product15',
       img: '/product15-1.webp',
+      img2: '/product15-2.webp',
     },
     {
       id: 16,
@@ -145,6 +160,7 @@ export class NewProduct {
       price: '從NT$ 30起',
       link: '/product16',
       img: '/product16-1.webp',
+      img2: '/product16-2.webp',
     },
     {
       id: 17,
@@ -152,6 +168,7 @@ export class NewProduct {
       price: 'NT$ 480',
       link: '/product17',
       img: '/product17-1.webp',
+      img2: '/product17-2.webp',
     },
     {
       id: 18,
@@ -159,6 +176,7 @@ export class NewProduct {
       price: '從NT$ 380起',
       link: '/product18',
       img: '/product18-1.webp',
+      img2: '/product18-2.webp',
     },
   ];
   flawItems: ProductItem[] = [
@@ -166,15 +184,17 @@ export class NewProduct {
       id: 1,
       title: '【一件可客製】趣味圖騰麂皮絨靜音拖鞋',
       price: 'NT$ 480',
-      link: '/product17',
-      img: '/product17-1.webp',
+      link: '/product19',
+      img: '/product19-1.webp',
+      img2: '/product19-2.webp',
     },
     {
       id: 2,
       title: '說走就走 多WAY提袋野餐墊',
       price: '從NT$ 380起',
-      link: '/product18',
-      img: '/product18-1.webp',
+      link: '/product20',
+      img: '/product20-1.webp',
+      img2: '/product20-2.webp',
     },
   ];
 }

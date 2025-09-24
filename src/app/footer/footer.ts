@@ -1,15 +1,60 @@
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-footer',
-  imports: [],
+  imports: [RouterLink],
   template: `
-    <p>
-      footer works!
-    </p>
+    <footer>
+      <div class="pt-7 pb-5 px-12 max-w-8xl mx-auto">
+        <div class="-ml-12 flex">
+          <div class="w-1/2 pl-12">
+            <a routerLink="/" class="inline-block max-w-f-logo">
+              <img src="/logo-footer.webp" class="w-full h-auto" alt="logo" />
+            </a>
+            <p class="text-xs mb-2.5">
+              Copyright © {{ 2020 }} E-commerce Powered by <a routerLink="/easystore">EasyStore</a>
+            </p>
+            <p class="text-xs mb-2.5">
+              質物圖鑑商行 87417975<br />
+              地址：桃園市平鎮區大勇街2巷3弄1號
+            </p>
+          </div>
+          <div class="w-1/2 pl-12">
+            <ul class="flex">
+              <li class="mr-5 mb-5">
+                <a href="/facebook"
+                  ><i class="fa-brands fa-square-facebook fa-xl" style="color: #000000;"></i
+                ></a>
+              </li>
+              <li class="mr-5 mb-5">
+                <a href="/instagram"
+                  ><i class="fa-brands fa-instagram fa-xl" style="color: #000000;"></i
+                ></a>
+              </li>
+              <li class="mr-5 mb-5">
+                <a href="/line"><i class="fa-brands fa-line fa-xl" style="color: #000000;"></i></a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <ul class="flex justify-center gap-2 mt-12 mb-6">
+          <li>
+            <i class="fa-brands fa-cc-visa fa-2xl" style="color: #555555;"></i>
+          </li>
+          <li>
+            <i class="fa-brands fa-cc-mastercard fa-2xl" style="color: #555555;"></i>
+          </li>
+          <li>
+            <i class="fa-brands fa-cc-amex fa-2xl" style="color: #555555;"></i>
+          </li>
+          <li>
+            <i class="fa-brands fa-cc-jcb fa-2xl" style="color: #555555;"></i>
+          </li>
+        </ul>
+      </div>
+    </footer>
   `,
-  styles: ``
+  styles: ``,
 })
-export class Footer {
-
-}
+export class Footer {}

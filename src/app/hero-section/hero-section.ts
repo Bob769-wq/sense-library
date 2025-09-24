@@ -5,7 +5,7 @@ import { RouterLink } from '@angular/router';
   selector: 'app-hero-section',
   imports: [RouterLink],
   template: `
-    <a routerLink="/new" class="inline-block mt-header">
+    <a routerLink="/new" class="inline-block mt-header-height">
       <img src="/hero-section-1.webp" class="w-full h-full" alt="sense-library" />
     </a>
   `,
