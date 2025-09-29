@@ -10,10 +10,10 @@ interface TypeList {
   selector: 'app-different-types',
   imports: [RouterLink],
   template: `
-    <div class="max-w-8xl mx-auto my-28">
+    <div class="max-w-1400 mx-auto my-12 md:my-28">
       <div class="flex justify-around items-center flex-wrap">
         @for (item of typeItems; track item.id) {
-          <div class="w-auto max-w-2/5 m-5">
+          <div class="w-auto max-w-40% m-5">
             <a [routerLink]="item.link">
               <img [src]="item.img" [alt]="item.title" />
             </a>

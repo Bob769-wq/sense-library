@@ -1,25 +1,27 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 interface NavList {
   id: number;
   title: string;
   link: string;
   children?: NavList[];
+  isExpanded?: boolean;
 }
 
 @Component({
   selector: 'app-header',
-  imports: [RouterLink],
+  imports: [RouterLink, ReactiveFormsModule],
   template: `
     <header class="bg-white fixed top-0 left-0 right-0 z-50">
-      <div class="px-6.1 py-2.5 w-full max-w-xxl flex justify-between items-center">
+      <div class="px-25 py-2.5 w-full max-w-1680 mx-auto flex justify-between items-center">
         <div>
-          <a routerLink="/" class="max-w-logo">
-            <img src="/logo-header.webp" class="max-w-logo w-full" alt="logo" />
+          <a routerLink="/" class="max-w-header-logo-width">
+            <img src="/logo-header.webp" class="max-w-header-logo-width w-full" alt="logo" />
           </a>
         </div>
         <div class="justify-start flex-1">
-          <ul class="flex pl-5">
+          <ul class="screen-min-w-992:flex pl-5 hidden">
             @for (item of navItems; track item.id) {
               @if (item.children && item.children.length > 0) {
                 <li class="text-xs flex group">
@@ -28,12 +30,12 @@ interface NavList {
                     <i class="fa-solid fa-chevron-down fa-sm" style="color: #000000;"></i>
                   </a>
                   <div
-                    class="fixed top-[65px] left-0 right-0 bg-white shadow-lg z-40
+                    class="fixed top-16 left-0 right-0 bg-white shadow-lg z-40
                               opacity-0 invisible group-hover:opacity-100 group-hover:visible
                               transition-all duration-300 ease-in-out"
                   >
-                    <div class="max-w-xxl mx-auto px-6.1 py-6">
-                      <div class="flex justify-center">
+                    <div class="py-25 px-[20vw]">
+                      <div class="flex ">
                         @for (child of item.children; track child.id) {
                           <a [routerLink]="child.link" class="block p-3">
                             <div class="text-sm font-medium text-gray-900">{{ child.title }}</div>
@@ -55,7 +57,7 @@ interface NavList {
         </div>
 
         <ul class="flex items-center">
-          <li class="px-2 cursor-pointer" (click)="toggleSearchBar()">
+          <li class="px-2 cursor-pointer hidden screen-min-w-992:block" (click)="toggleSearchBar()">
             <i class="fa-solid fa-magnifying-glass fa-lg" style="color: #000000;"></i>
           </li>
           <div
@@ -63,13 +65,12 @@ interface NavList {
             [class]="isSearchBarOpen() ? 'fixed inset-0 bg-black bg-opacity-50 z-[9999]' : 'hidden'"
             (click)="toggleSearchBar()"
           ></div>
-
           <div
             class="transition-all duration-300 ease-in-out"
             [class]="isSearchBarOpen() ? 'fixed top-0 right-0 left-0 bg-white z-[10000]' : 'hidden'"
           >
             <div class="flex justify-center p-2.5 relative">
-              <form class="max-w-4/5 w-full flex items-center">
+              <form class="max-w-80% w-full flex items-center">
                 <span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -110,20 +111,90 @@ interface NavList {
             </div>
           </div>
           <li class="px-2 cursor-pointer">
-            <i class="fa-regular fa-user fa-lg" style="color: #000000;"></i>
+            <i
+              class="fa-regular fa-user fa-lg hidden screen-min-w-992:block"
+              style="color: #000000;"
+            ></i>
+            <i class="fa-regular fa-user fa-xl screen-min-w-992:hidden" style="color: #000000;"></i>
           </li>
           <li class="px-2 cursor-pointer" (click)="toggleCart()">
-            <i class="fa-solid fa-bag-shopping fa-lg" style="color: #000000;"></i>
+            <i
+              class="fa-solid fa-bag-shopping fa-lg hidden screen-min-w-992:block"
+              style="color: #000000;"
+            ></i>
+            <i
+              class="fa-solid fa-bag-shopping fa-xl screen-min-w-992:hidden"
+              style="color: #000000;"
+            ></i>
+          </li>
+          <li class="px-2 cursor-pointer" (click)="toggleMenu()">
+            <i class="fa-solid fa-bars fa-xl screen-min-w-992:hidden" style="color: #000000;"></i>
           </li>
         </ul>
       </div>
     </header>
 
     <div
+      class="fixed top-0 right-0 h-full w-80 bg-white z-50 overflow-y-auto transition-transform duration-500 ease-in-out"
+      [class]="isMenuOpen() ? 'translate-x-0' : 'translate-x-full'"
+    >
+      <div class="flex flex-col">
+        <div class="flex justify-end p-4">
+          <div class="shadow-xl  rounded-full p-3" (click)="toggleMenu()">
+            <i
+              class="fa-solid fa-xmark flex items-center justify-center"
+              style="color: #000000;"
+            ></i>
+          </div>
+        </div>
+        <ul>
+          <div class="border-b py-5 px-6 ">
+            <form class="relative" [formGroup]="form" (submit)="submit()">
+              <input type="text" placeholder="搜尋" class="w-full pl-2.5 pr-9 py-1" />
+              <button class="absolute top-1 right-1">
+                <i class="fa-solid fa-magnifying-glass fa-sm" style="color: #000000;"></i>
+              </button>
+            </form>
+          </div>
+          @for (item of menuItems; track item.id) {
+            @if (item.children && item.children.length > 0) {
+              <li class="border-b ">
+                <div class="flex justify-between items-center">
+                  <a class="inline-block py-5 px-6">{{ item.title }}</a>
+                  <div
+                    class="border border-black flex justify-center items-center w-8 h-8 mr-5 cursor-pointer"
+                    (click)="toggleExpanded(item)"
+                  >
+                    <span>{{ item.isExpanded ? '-' : '+' }}</span>
+                  </div>
+                </div>
+                @if (item.isExpanded) {
+                  <ul>
+                    @for (child of item.children; track child.id) {
+                      <li class="cursor-pointer">
+                        <a class="inline-block py-5 px-6" [routerLink]="child.link">{{
+                          child.title
+                        }}</a>
+                      </li>
+                    }
+                  </ul>
+                }
+              </li>
+            } @else {
+              <li class="border-b">
+                <a class="inline-block py-5 px-6">{{ item.title }}</a>
+              </li>
+            }
+          }
+        </ul>
+      </div>
+    </div>
+
+    <div
       class="transition-all duration-500"
       [class]="
         isCartOpen()
-          ? 'fixed top-header-height bottom-cartSearch right-0 left-0 bg-white shadow-xl z-[10000]'
+          ? 'fixed top-header-height bottom-0 md:bottom-[10vh] right-0 left-0 bg-white shadow-xl z-[10000]'
           : 'h-0'
       "
     >
@@ -149,13 +220,35 @@ interface NavList {
   styles: ``,
 })
 export class Header {
-  openDropdownById = signal<number | null>(null);
-  showDropdown(id: number) {
-    this.openDropdownById.set(id);
+  isMenuOpen = signal(false);
+  toggleMenu() {
+    this.isMenuOpen.update((value) => !value);
   }
-  hideDropdown() {
-    this.openDropdownById.set(null);
+  toggleExpanded(item: NavList) {
+    if (item.children && item.children.length > 0) {
+      item.isExpanded = !item.isExpanded;
+    }
   }
+
+  fb = inject(NonNullableFormBuilder);
+  form = this.fb.group({
+    searchControl: this.fb.control('', {
+      validators: [Validators.required],
+    }),
+  });
+
+  submit() {
+    const data = this.form.getRawValue();
+    data.searchControl = data.searchControl.trim();
+    this.form.patchValue(data);
+    if (this.form.invalid) {
+      console.error('錯誤');
+      return;
+    }
+
+    console.log(data);
+  }
+
   isSearchBarOpen = signal(false);
   toggleSearchBar() {
     this.isSearchBarOpen.update((value) => !value);
@@ -216,5 +309,60 @@ export class Header {
       ],
     },
     { id: 4, title: '退換貨須知', link: '/change' },
+  ];
+  menuItems: NavList[] = [
+    { id: 1, title: '首頁', link: '/' },
+    {
+      id: 2,
+      title: '所有商品',
+      link: '/products',
+      children: [
+        {
+          id: 1,
+          title: '展場限定',
+          link: '/limited',
+        },
+        {
+          id: 2,
+          title: '專屬客製',
+          link: '/customized',
+        },
+        {
+          id: 3,
+          title: '日貨專區',
+          link: '/japan',
+        },
+        {
+          id: 4,
+          title: '衛浴專區',
+          link: '/bath',
+        },
+        {
+          id: 5,
+          title: 'SALE! 專區',
+          link: '/sale',
+        },
+        {
+          id: 6,
+          title: '瑕疵專區',
+          link: '/flaw',
+        },
+      ],
+    },
+    {
+      id: 3,
+      title: '購買須知',
+      link: '/know',
+      children: [
+        {
+          id: 1,
+          title: '客製化商品訂購須知',
+          link: '',
+        },
+      ],
+    },
+    { id: 4, title: '退換貨須知', link: '/change' },
+    { id: 5, title: '登入', link: '/log-in' },
+    { id: 6, title: '註冊', link: '/sign-in' },
   ];
 }

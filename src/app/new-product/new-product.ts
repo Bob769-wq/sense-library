@@ -7,23 +7,22 @@ interface ProductItem {
   link: string;
   img: string;
   img2: string;
+  discount?: boolean;
 }
 @Component({
   selector: 'app-new-product',
   imports: [CardContent],
   template: `
-    <div class="max-w-8xl mx-auto my-28 px-12">
-      <h2 class="text-center mb-6.1 text-2xl">新品上市</h2>
-      <div class="pt-2.5 pb-8 flex flex-wrap -ml-12">
+    <div class="max-w-1400 mx-auto my-12 md:my-28 px-6 md:px-12">
+      <h2 class="text-center mb-25 text-2xl">新品上市</h2>
+      <div class="pt-2.5 pb-8 grid grid-cols-1 md:grid-cols-2 screen-min-w-992:grid-cols-3 gap-12">
         @for (item of productItems; track item.id) {
-          <div class="pl-12 mb-12 w-1/3">
-            <app-card-content [product]="item" />
-          </div>
+          <app-card-content [product]="item" />
         }
       </div>
-      <div class="pt-2.5 pb-8 flex justify-center flex-wrap -ml-12">
+      <div class="pt-2.5 pb-8 grid grid-cols-1 md:grid-cols-2 screen-min-w-992:flex justify-center">
         @for (item of flawItems; track item.id) {
-          <div class="pl-12 mb-12 w-1/3">
+          <div class="pl-12 mb-12 screen-min-w-992:w-1/3">
             <app-card-content [product]="item" />
           </div>
         }
@@ -187,6 +186,7 @@ export class NewProduct {
       link: '/product19',
       img: '/product19-1.webp',
       img2: '/product19-2.webp',
+      discount: true,
     },
     {
       id: 2,
@@ -195,6 +195,7 @@ export class NewProduct {
       link: '/product20',
       img: '/product20-1.webp',
       img2: '/product20-2.webp',
+      discount: true,
     },
   ];
 }
